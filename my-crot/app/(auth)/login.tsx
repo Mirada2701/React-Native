@@ -12,17 +12,42 @@ import {
 import ScrollView = Animated.ScrollView;
 import React, {useState} from "react";
 import FormField from "@/components/FormField";
+import {useRouter} from "expo-router";
 
 const LoginScreen = () => {
 
     const [form, setForm] = useState({email: "", password: ""});
+    const router = useRouter();
 
     const handleChange = (field: string, value: string) => {
         setForm({...form, [field]: value});
     }
 
-    const handleSubmit = () => {
-        console.log("Login data", form);
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch("http://10.0.0.42:8083/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: form.email,
+                    password: form.password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Вхід успішний!");
+                router.replace("/");
+            } else {
+                alert(data.message || "Неправильні дані для входу");
+            }
+        } catch (error) {
+            console.error("Помилка входу:", error);
+            alert("Помилка підключення до сервера");
+        }
     }
     return (
         <>
@@ -69,7 +94,7 @@ const LoginScreen = () => {
 
                                 {/* Кнопка "Реєструватися" */}
                                 <TouchableOpacity
-                                    // onPress={() => router.replace("/register")}
+                                    onPress={() => router.replace("/register")}
                                     className="w-full bg-gray-300 p-4 rounded-lg mt-2"
                                 >
                                     <Text className="text-black text-center text-lg font-medium">
