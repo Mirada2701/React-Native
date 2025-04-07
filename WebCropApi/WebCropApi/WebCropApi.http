@@ -1,0 +1,6 @@
+@WebCropApi_HostAddress = http://localhost:5232
+
+GET {{WebCropApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
