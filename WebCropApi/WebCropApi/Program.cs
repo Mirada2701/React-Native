@@ -5,6 +5,7 @@ using WebCropApi.Services;
 using WebCrotApi.Data;
 using Microsoft.AspNetCore.Identity;
 using WebCropApi.Data.Entities.Identity;
+using WebCrotApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.AddIdentity<UserEntity, RoleEntity>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();
