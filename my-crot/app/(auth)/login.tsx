@@ -7,12 +7,13 @@ import {
     SafeAreaView,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from "react-native";
 import ScrollView = Animated.ScrollView;
 import React, {useState} from "react";
 import FormField from "@/components/FormField";
 import {useRouter} from "expo-router";
+
 
 const LoginScreen = () => {
 
@@ -25,13 +26,13 @@ const LoginScreen = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch("http://10.0.0.42:8083/auth/login", {
+            const response = await fetch("http://18.153.81.233:4872/api/Account/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    username: form.email,
+                    email: form.email,
                     password: form.password,
                 }),
             });
@@ -40,7 +41,7 @@ const LoginScreen = () => {
 
             if (response.ok) {
                 alert("Вхід успішний!");
-                router.replace("/");
+                router.replace("/explore");
             } else {
                 alert(data.message || "Неправильні дані для входу");
             }
