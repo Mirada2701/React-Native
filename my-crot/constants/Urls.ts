@@ -1,1 +1,1 @@
-export const BASE_URL = "https://pd211api.itstep.click";
+export const BASE_URL = "http://18.153.81.233:4872";

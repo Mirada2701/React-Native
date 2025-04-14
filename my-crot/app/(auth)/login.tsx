@@ -12,17 +12,18 @@ import {
 import ScrollView = Animated.ScrollView;
 import React, {useState} from "react";
 import FormField from "@/components/FormField";
-import {IUserLoginRequest} from "@/app/(auth)/types";
-// import {useLoginUserMutation} from "@/services/authApi";
 import { useRouter } from "expo-router";
+import {useLoginMutation} from "@/services/accountService";
+import {jwtParse} from "@/utils/jwtParser";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 const LoginScreen = () => {
 
     const router = useRouter();
 
-    const [form, setForm] = useState<IUserLoginRequest>({email: "", password: ""});
+    const [form, setForm] = useState({email: "", password: ""});
 
-    // const [loginUser] = useLoginUserMutation();
+    const [login, {isLoading, error} ] = useLoginMutation();
 
     const handleChange = (field: string, value: string) => {
         setForm({...form, [field]: value});
@@ -30,10 +31,11 @@ const LoginScreen = () => {
 
     const handleSubmit = async () => {
         try {
-            // const response = await loginUser(form).unwrap();
-            // console.log("Користувача успішно зайшов через username", response);
-            // console.log("Login data", form);
-            // router.replace("/explore");
+            const data = await login(form).unwrap();
+            const userInfo = jwtParse(data.token);
+            console.log("User info", userInfo);
+            console.log("Login data", data);
+            router.replace("/explore");
         }
         catch(error) {
             console.error("Поилка при вході", error);
@@ -49,12 +51,23 @@ const LoginScreen = () => {
                         <ScrollView
                             contentContainerStyle={{flexGrow: 1, paddingHorizontal: 20}}
                         >
+
+                            <LoadingOverlay visible={isLoading} />
                             <View className="w-full flex justify-center items-center my-6"
                                   style={{minHeight: Dimensions.get("window").height-100}}>
 
                                 <Text className={"text-3xl font-bold mb-6 text-black"}>
                                     Вхід
                                 </Text>
+
+                                {error ?
+                                    <View
+                                        className="p-4 mb-4 text-sm text-red-800 bg-red-50 border border-red-300 rounded-lg dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                                        role="alert">
+                                        <Text className="font-semibold">Дані вказано не вірно!</Text>
+                                    </View>
+                                    : null
+                                }
 
                                 <FormField
                                     title={"Пошта"}
