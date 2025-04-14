@@ -1,9 +1,8 @@
-// @ts-ignore
-import { API_URL, APP_ACCESS_KEY } from '@env';
+import {BASE_URL} from "@/constants/Urls";
 
 const APP_ENV = {
-    API_URL,
-    APP_ACCESS_KEY
+    API_URL: BASE_URL,
+    APP_ACCESS_KEY: "access-token-key"
 }
 
 export { APP_ENV };

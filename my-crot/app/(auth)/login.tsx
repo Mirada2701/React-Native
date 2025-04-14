@@ -13,7 +13,7 @@ import ScrollView = Animated.ScrollView;
 import React, {useState} from "react";
 import FormField from "@/components/FormField";
 import {IUserLoginRequest} from "@/app/(auth)/types";
-import {useLoginUserMutation} from "@/services/authApi";
+// import {useLoginUserMutation} from "@/services/authApi";
 import { useRouter } from "expo-router";
 
 const LoginScreen = () => {
@@ -22,7 +22,7 @@ const LoginScreen = () => {
 
     const [form, setForm] = useState<IUserLoginRequest>({email: "", password: ""});
 
-    const [loginUser] = useLoginUserMutation();
+    // const [loginUser] = useLoginUserMutation();
 
     const handleChange = (field: string, value: string) => {
         setForm({...form, [field]: value});
@@ -30,10 +30,10 @@ const LoginScreen = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await loginUser(form).unwrap();
-            console.log("Користувача успішно зайшов через username", response);
-            console.log("Login data", form);
-            router.replace("/explore");
+            // const response = await loginUser(form).unwrap();
+            // console.log("Користувача успішно зайшов через username", response);
+            // console.log("Login data", form);
+            // router.replace("/explore");
         }
         catch(error) {
             console.error("Поилка при вході", error);

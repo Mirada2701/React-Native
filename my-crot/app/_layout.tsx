@@ -8,8 +8,8 @@ import 'react-native-reanimated';
 import "../global.css"
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import {Provider} from "react-redux";
-import {store} from "@/store";
+// import {Provider} from "react-redux";
+// import {store} from "@/store";
 
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -32,7 +32,7 @@ export default function RootLayout() {
   }
 
   return (
-      <Provider store = {store}>
+      // <Provider store = {store}>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
@@ -41,6 +41,6 @@ export default function RootLayout() {
       <StatusBar style="auto" />
     </ThemeProvider>
 
-      </Provider>
+      // </Provider>
   );
 }
