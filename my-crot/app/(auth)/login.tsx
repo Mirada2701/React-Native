@@ -16,6 +16,10 @@ import { useRouter } from "expo-router";
 import {useLoginMutation} from "@/services/accountService";
 import {jwtParse} from "@/utils/jwtParser";
 import LoadingOverlay from "@/components/LoadingOverlay";
+import {useAppDispatch} from "@/store";
+import {saveToSecureStore} from "@/utils/secureStore";
+import {setCredentials} from "@/store/slices/userSlice";
+import {IUser} from "@/interfaces/account";
 
 const LoginScreen = () => {
 
@@ -25,6 +29,8 @@ const LoginScreen = () => {
 
     const [login, {isLoading, error} ] = useLoginMutation();
 
+    const dispatch = useAppDispatch();
+
     const handleChange = (field: string, value: string) => {
         setForm({...form, [field]: value});
     }
@@ -32,10 +38,12 @@ const LoginScreen = () => {
     const handleSubmit = async () => {
         try {
             const data = await login(form).unwrap();
-            const userInfo = jwtParse(data.token);
-            console.log("User info", userInfo);
-            console.log("Login data", data);
-            router.replace("/explore");
+
+            await saveToSecureStore('authToken', data.token)
+            dispatch(setCredentials({ user: jwtParse(data.token) as IUser, token: data.token }));
+
+            // Перенаправляємо користувача на сторінку профілю
+            router.replace("/profile");
         }
         catch(error) {
             console.error("Поилка при вході", error);
