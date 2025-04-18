@@ -24,7 +24,11 @@ builder.Services.AddIdentity<UserEntity, RoleEntity>(options =>
     options.Password.RequireLowercase = false;
 }).AddEntityFrameworkStores<WebCrotDbContext>().AddDefaultTokenProviders();
 
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddControllers();
+
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
