@@ -6,6 +6,7 @@ using WebCrotApi.Data;
 using Microsoft.AspNetCore.Identity;
 using WebCropApi.Data.Entities.Identity;
 using WebCrotApi.Services;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,16 @@ var app = builder.Build();
 //{
 //    app.MapOpenApi();
 //}
+
+var imagesFolger = builder.Configuration.GetValue<string>("ImagesDir") ?? "";
+var dirSave = Path.Combine(builder.Environment.ContentRootPath, imagesFolger);
+Directory.CreateDirectory(dirSave);
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(dirSave),
+    RequestPath = $"/{imagesFolger}"
+});
 
 
 app.UseSwagger();

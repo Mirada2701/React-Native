@@ -79,3 +79,10 @@ npx expo install expo-secure-store
 
 ```
 
+## Add working images
+```
+npx expo install expo-image-picker
+npx expo install expo-file-system
+npm i object-to-formdata
+```
+
