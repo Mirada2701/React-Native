@@ -13,7 +13,7 @@ import {
 import ScrollView = Animated.ScrollView;
 import React, {useState} from "react";
 import FormField from "@/components/FormField";
-import {useRegisterMutation} from "@/services/accountService";
+import {useRegisterMutation} from "@/serices/accountService";
 import {jwtParse} from "@/utils/jwtParser";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import {useAppDispatch} from "@/store";
@@ -101,7 +101,6 @@ const RegisterScreen = () => {
                                     Реєстрація
                                 </Text>
 
-
                                 {error ?
                                     <View
                                         className="p-4 mb-4 text-sm text-red-800 bg-red-50 border border-red-300 rounded-lg dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
@@ -164,7 +163,6 @@ const RegisterScreen = () => {
                                         Реєстрація
                                     </Text>
                                 </TouchableOpacity>
-
 
                                 {/* Кнопка "Реєструватися" */}
                                 <TouchableOpacity

@@ -3,7 +3,7 @@
 echo Docker login...
 docker login
 
-cd "WebCropApi"
+cd "WebCrotApi"
 
 echo Building Docker image api...
 docker build -t pd211-asp-api .

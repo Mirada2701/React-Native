@@ -28,4 +28,3 @@ export interface IRegister {
     password: string;
     image: File | null
 }
-

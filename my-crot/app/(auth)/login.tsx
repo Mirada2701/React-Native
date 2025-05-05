@@ -12,24 +12,24 @@ import {
 import ScrollView = Animated.ScrollView;
 import React, {useState} from "react";
 import FormField from "@/components/FormField";
-import { useRouter } from "expo-router";
-import {useLoginMutation} from "@/services/accountService";
+import {useLoginMutation} from "@/serices/accountService";
 import {jwtParse} from "@/utils/jwtParser";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import {useAppDispatch} from "@/store";
 import {saveToSecureStore} from "@/utils/secureStore";
 import {setCredentials} from "@/store/slices/userSlice";
 import {IUser} from "@/interfaces/account";
+import {useRouter} from "expo-router";
 
 const LoginScreen = () => {
 
-    const router = useRouter();
+    const router = useRouter(); // Ініціалізуємо роутер
 
     const [form, setForm] = useState({email: "", password: ""});
 
-    const [login, {isLoading, error} ] = useLoginMutation();
+    const [login, {isLoading, error}] = useLoginMutation();
 
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch(); // Використовуємо dispatch з Redux
 
     const handleChange = (field: string, value: string) => {
         setForm({...form, [field]: value});
@@ -37,6 +37,7 @@ const LoginScreen = () => {
 
     const handleSubmit = async () => {
         try {
+            //Очікує завершення результату від сервера
             const data = await login(form).unwrap();
 
             await saveToSecureStore('authToken', data.token)
@@ -45,9 +46,10 @@ const LoginScreen = () => {
             // Перенаправляємо користувача на сторінку профілю
             router.replace("/profile");
         }
-        catch(error) {
-            console.error("Поилка при вході", error);
+        catch {
+            console.log("Login error");
         }
+
     }
     return (
         <>
@@ -59,10 +61,9 @@ const LoginScreen = () => {
                         <ScrollView
                             contentContainerStyle={{flexGrow: 1, paddingHorizontal: 20}}
                         >
-
                             <LoadingOverlay visible={isLoading} />
                             <View className="w-full flex justify-center items-center my-6"
-                                  style={{minHeight: Dimensions.get("window").height-100}}>
+                                  style={{minHeight: Dimensions.get("window").height - 100}}>
 
                                 <Text className={"text-3xl font-bold mb-6 text-black"}>
                                     Вхід
@@ -76,6 +77,7 @@ const LoginScreen = () => {
                                     </View>
                                     : null
                                 }
+
 
                                 <FormField
                                     title={"Пошта"}
